@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSC Ladkrabang</title>
+    <style>
+        /* Existing CSS omitted for brevity */
+
+        /* Activity Calendar Section */
+        .news-section {
+            background-color: #FFF3E0;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .news-section h2 {
+            font-size: 32px;
+            color: #ef6c00;
+            margin-bottom: 30px;
+        }
+
+        .news-card-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .news-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            text-align: left;
+        }
+
+        .news-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .news-card-content {
+            padding: 20px;
+        }
+
+        .news-card-content h3 {
+            font-size: 20px;
+            color: #ef6c00;
+            margin-bottom: 10px;
+        }
+
+        .news-card-content p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .news-card-content a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #ef6c00;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .news-card-content a:hover {
+            text-decoration: underline;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        /* Header */
+        header {
+            background-color: #ffe0b2;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px; /* กำหนดความสูงให้แน่นอน */
+        }
+
+        header img {
+            height: 100px;
+            width: auto;
+            margin-right: 3px;
+            margin-right: 1px; /* เพิ่มระยะห่างระหว่างโลโก้กับเมนู */
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-grow: 1; /* ให้ nav เติบโตเพื่อใช้พื้นที่ที่เหลือ */
+        }
+
+        nav a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .menu-icon {
+            margin-right: 8px;
+            height: 24px;
+            width: auto;
+        }
+
+        .menu-text {
+            font-size: 16px;
+        }
+
+        /* การสไตลิ่งเมนูที่แอคทีฟ */
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: orange;
+            bottom: -5px;
+            left: 0;
+        }
+
+        /* การสไตลิ่งเมนูเมื่อโฮเวอร์ */
+        nav a:hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: orange;
+            bottom: -5px;
+            left: 0;
+        }
+
+        /* Main Banner */
+        .banner {
+            background-image: url('images/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* This makes the background move slower during scroll */
+            background-color: white;
+            text-align: center;
+            padding: 100px 0;
+            color: white;
+            position: relative;
+            height: 400px;
+        }
+
+        .banner h1 {
+            font-size: 48px;
+            color: #ef6c00;
+        }
+
+        .banner::before {
+            content: '';
+            background-image: url();
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #e0e0e0;
+            padding: 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .footer-info {
+            margin-bottom: 10px;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer-social a {
+            font-size: 24px;
+            color: black;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        .footer-social img {
+            height: 35px;
+            width: auto;
+        }
+
+        .facebook-icon {
+            width: 35px;
+        }
+
+        .instagram-icon {
+            width: 65px;
+        }
+
+        .line-icon {
+            width: 200px;
+        }
+
+        /* ส่วนของ CSS อื่นๆ */
+
+        /* เพิ่มคลาส 'active' เพื่อแสดงแถบด้านล่าง */
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: orange;
+            bottom: -5px;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <img src="images/MSC Logo.png" alt="MSC Logo"> 
+        <nav>
+            <a href="index.html" class="active">
+                <span class="menu-text">Home</span>
+            </a>
+            <a href="Activity.html">
+                <span class="menu-text">Activities</span>
+            </a>
+            <a href="restaurant.html">
+                <span class="menu-text">Restaurant</span>
+            </a>
+            <a href="Prayer Room.html">
+                <span class="menu-text">Prayer Room</span>
+            </a>
+        </nav>
+    </header>        
+    
+    <section class="banner"></section>
+
+<!-- Section สำหรับประชาสัมพันธ์ข่าวสาร -->
+<section class="news-section" id="news-section1">
+    <h2>News & Announcements</h2>
+    <div class="news-card-container" id="news-card-container">
+        <!-- การ์ดข่าวจะถูกเพิ่มที่นี่ -->
+    </div>
+</section>
+
+    
+        <footer>
+            <div class="footer-info">
+                <p>© 2024 MSC Ladkrabang. All rights reserved.</p>
+            </div>
+            <div class="footer-social">
+                <a href="#"><img src="images/facebook-icon.png" alt="Facebook" class="facebook-icon"></a>
+                <a href="#"><img src="images/instagram-icon.png" alt="Instagram" class="instagram-icon"></a>
+                <a href="#"><img src="images/line-icon.png" alt="Line" class="line-icon"></a>
+            </div>
+        </footer>
+    
+        <script>
+            function displayNewsFrontend() {
+            const newsContainer = document.getElementById('news-card-container');
+            const newsData = JSON.parse(localStorage.getItem('newsData')) || {};
+
+            // เคลียร์การ์ดข่าวเก่า
+            newsContainer.innerHTML = '';
+
+            // ตรวจสอบว่ามีข่าวหรือไม่
+            if (Object.keys(newsData).length === 0) {
+                newsContainer.innerHTML = '<p>ไม่มีข่าวประชาสัมพันธ์</p>';
+                return;
+            }
+
+            // สร้างการ์ดข่าวจากข้อมูลที่ดึงมา
+            for (const title in newsData) {
+                const news = newsData[title];
+                const newsCard = `
+                    <div class="news-card">
+                        <img src="${news.image}" alt="${title}">
+                        <div class="news-card-content">
+                            <h3>${title}</h3>
+                            <p>${news.description}</p>
+                            <a href="${news.link}">อ่านต่อ</a>
+                        </div>
+                    </div>
+                `;
+                newsContainer.innerHTML += newsCard;
+            }
+        }
+
+        // เรียกใช้ฟังก์ชันเพื่อแสดงข่าวเมื่อโหลดหน้า
+        window.onload = displayNewsFrontend;
+        displayNewsFrontend();
+        </script>
+      <script src="admin-dashboard.js"></script>
+   
+    </body>
+</html>

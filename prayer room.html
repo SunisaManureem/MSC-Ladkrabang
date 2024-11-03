@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ห้องละหมาด</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5e9dc;
+        }
+
+        header {
+            background-color: #ffe0b2;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+        }
+
+        header img {
+            height: 100px;
+            width: auto;
+            margin-right: 3px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-grow: 1;
+        }
+
+        nav a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: orange;
+            bottom: -5px;
+            left: 0;
+        }
+        nav a:hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: orange;
+            bottom: -5px;
+            left: 0;
+        }
+
+        
+
+        .content {
+            padding: 20px;
+        }
+
+        .prayerroom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .prayerroom-item {
+            background-color: #e0e0e0;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .prayerroom-item img {
+            width: 90%;
+            height: 130px;
+            background-color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #e0e0e0;
+            padding: 10px;
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="images/MSC Logo.png" alt="MSC Logo"> 
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="Activity.html">Activities</a>
+            <a href="restaurant.html">Restaurant</a>
+            <a href="PrayerRoom.html" class="active">Prayer Room</a>
+        </nav>
+        
+    </header>    
+
+    <div class="content">
+        <h2></h2>
+        <div class="prayerroom-grid" id="prayerroom-grid">
+            <!-- จะแสดงข้อมูลห้องละหมาดที่นี่ -->
+        </div>
+        <h3></h3>
+        <div class="prayerroom-grid" id="science-prayerroom-grid">
+             <!-- จะแสดงข้อมูลห้องละหมาดคณะวิทยาศาสตร์ที่ดึงมาจาก API  -->
+        </div>
+        <h3></h3>
+        <div class="prayerroom-grid" id="engineering-prayerroom-grid">
+             <!-- แสดงข้อมูลห้องละหมาดคณะวิศวกรรมศาสตร์ที่ดึงมาจาก API  -->      
+        </div>
+        <h3></h3>
+        <div class="prayerroom-grid" id="business-prayerroom-grid"></div>
+             <!-- แสดงข้อมูลห้องละหมาดคณะบริหารธุรกิจที่ดึงมาจาก API  -->      
+        </div>
+        <h3></h3>
+        <div class="prayerroom-grid" id="architecture-prayerroom-grid">
+            <!-- ข้อมูลจาก API ของคณะสถาปัตยกรรม -->
+        </div>
+        <h3></h3>
+        <div class="prayerroom-grid" id="Information-prayerroom-grid">
+            <!-- ข้อมูลจาก API ของคณะเทคโนโลยีสารสนเทศ -->
+        </div>
+        <div class="prayerroom-grid" id="Agricultural-prayerroom-grid">
+            <!-- ข้อมูลจาก API ของคณะเทคโนโลยีการเกษตร -->
+        </div>
+        <div class="prayerroom-grid" id="Library-prayerroom-grid">
+            <!-- ข้อมูลจาก API ของหอสมุดกลาง -->
+        </div>
+    </div>
+
+    <footer>
+    </footer>
+
+    <script>
+        async function fetchPrayerRoomData() {
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwbpqiINhHnrCX472fiLf50-uB1Y3FGvj7dX3rO_gf1UlTCnJtMj45FGzEEHsLvj1YN_w/exec');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching prayer room data:', error);
+                return null;
+            }
+        }
+    
+        async function fetchEngineeringPrayerRoomData() {
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbxMoPGaRS2xJVKhSpi84sr1hMmiFfp2YbsA6QnjtWD17viRrSi4iLysBWbCEoPMsuWA8w/exec');
+                const data = await response.json();
+                console.log('Engineering Prayer Room Data:', data); // เพิ่มบรรทัดนี้เพื่อตรวจสอบข้อมูล
+                return data;
+            } catch (error) {
+                console.error('Error fetching engineering prayer room data:', error);
+                return null;
+            }
+        }
+        async function fetchBusinessPrayerRoomData() {
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbxcKW6me07vHK5Gnt6q5164f8ejC9e7doa96mTJyAmN4q3K9oX2nyAQnnBTHXgFreBl-w/exec');
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching business prayer room data:', error);
+                return null;
+            }
+        }
+        async function fetchArchitecturePrayerRoomData() {
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbzu9xkVymAS99R-wbEjFbeIp32XXOz6TOP-p-OQV8XAt54J3ObmdtFo93Hhb3WaftXl/exec');
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching architecture prayer room data:', error);
+                return null;
+            }
+        }
+        async function fetchInformationPrayerRoomData() {
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbxJsHFU3OTGwhyAeodmVdNQMyNeoTIOTdYQQQgIMp5quRjUt9WtqkuGbUxzh760f8pF/exec');
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching Information prayer room data:', error);
+                return null;
+            }
+        }
+        async function fetchAgriculturalPrayerRoomData() {
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbxrynhtcKC5vndcaVEqkmuWnb0LyUAKcx6zo3PCWocSi3Fhbl6y5o4daMAaggL78MqKEQ/exec');
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching Agricultural prayer room data:', error);
+                return null;
+            }
+        }
+        async function fetchLibraryPrayerRoomData() {
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwkh6KhsqcIgCHlv1zXTTy1ReGzG81NlwWjExxHeHLBggzy1noqT4zBUpRSUk48elc2Zg/exec');
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching Library prayer room data:', error);
+                return null;
+            }
+        }
+    
+        async function fetchData() {
+            const prayerRoomData = await fetchPrayerRoomData();
+            const engineeringPrayerRoomData = await fetchEngineeringPrayerRoomData();
+            const businessPrayerRoomData = await fetchBusinessPrayerRoomData();
+            const architecturePrayerRoomData = await fetchArchitecturePrayerRoomData();
+            const InformationPrayerRoomData = await fetchInformationPrayerRoomData();
+            const AgriculturalPrayerRoomData = await fetchAgriculturalPrayerRoomData();
+            const LibraryPrayerRoomData = await fetchLibraryPrayerRoomData();
+            const prayerRooms = JSON.parse(localStorage.getItem('prayerRooms')) || [];
+            const prayerRoomGrid = document.getElementById('prayerroom-grid');
+            const sciencePrayerRoomGrid = document.getElementById('science-prayerroom-grid');
+            const engineeringPrayerRoomGrid = document.getElementById('engineering-prayerroom-grid');
+            const businessPrayerRoomGrid = document.getElementById('business-prayerroom-grid');
+            const architecturePrayerRoomGrid = document.getElementById('architecture-prayerroom-grid');
+            const InformationPrayerRoomGrid = document.getElementById('Information-prayerroom-grid');
+            const AgriculturalPrayerRoomGrid = document.getElementById('Agricultural-prayerroom-grid');
+            const LibraryPrayerRoomGrid = document.getElementById('Library-prayerroom-grid');
+            console.log('Prayer Room Data:', prayerRoomData); // เพิ่มบรรทัดนี้เพื่อตรวจสอบข้อมูล
+            console.log('Engineering Prayer Room Data:', engineeringPrayerRoomData); // เพิ่มบรรทัดนี้เพื่อตรวจสอบข้อมูล
+            
+            prayerRoomGrid.innerHTML = '';
+            sciencePrayerRoomGrid.innerHTML = '';
+            engineeringPrayerRoomGrid.innerHTML = '';
+            businessPrayerRoomGrid.innerHTML = '';
+            architecturePrayerRoomGrid.innerHTML = '';
+            InformationPrayerRoomGrid.innerHTML = '';
+            AgriculturalPrayerRoomGrid.innerHTML = '';
+            LibraryPrayerRoomGrid.innerHTML = '';
+    
+    
+            prayerRooms.forEach(prayerRoom => {
+                const prayerRoomItem = `
+                    <div class="prayerroom-item">
+                        <img src="${prayerRoom.image}" alt="${prayerRoom.name}">
+                        <p>${prayerRoom.name}</p>
+                    </div>
+                `;
+                prayerRoomGrid.innerHTML += prayerRoomItem;
+    
+                if (prayerRoom.name === "ห้องละหมาดคณะวิทยาศาสตร์") {
+                    const apiCount = prayerRoomData;
+                    const apiPrayerRoomItem = `
+                        <div class="prayerroom-item">
+                            <img src="${prayerRoom.image}" alt="${prayerRoom.name}">
+                            <p>${prayerRoom.name} (จำนวนผู้ใช้ปัจจุบัน: ${apiCount})</p>
+                        </div>
+                    `;
+                    sciencePrayerRoomGrid.innerHTML += apiPrayerRoomItem;
+                }
+    
+                if (prayerRoom.name === "ห้องละหมาดคณะวิศวกรรมศาสตร์") {
+                    const apiEngineeringRoomItem = `
+                        <div class="prayerroom-item">
+                            <img src="${prayerRoom.image}" alt="${prayerRoom.name}">
+                            <p>${prayerRoom.name} (จำนวนผู้ใช้ปัจจุบัน: ${engineeringPrayerRoomData})</p>
+                        </div>
+                    `;
+                    engineeringPrayerRoomGrid.innerHTML += apiEngineeringRoomItem;
+                }
+                if (prayerRoom.name === "ห้องละหมาดคณะบริหารธุรกิจ") {
+                    businessPrayerRoomGrid.innerHTML += `
+                        <div class="prayerroom-item">
+                            <img src="${prayerRoom.image}" alt="${prayerRoom.name}">
+                            <p>${prayerRoom.name} (จำนวนผู้ใช้ปัจจุบัน: ${businessPrayerRoomData})</p>
+                        </div>
+                    `;
+                    businessPrayerRoomGrid.innerHTML += apiEngineeringRoomItem;
+                }
+                if (prayerRoom.name === "ห้องละหมาดคณะสถาปัตยกรรม") {
+                    architecturePrayerRoomGrid.innerHTML += `
+                        <div class="prayerroom-item">
+                            <img src="${prayerRoom.image}" alt="${prayerRoom.name}">
+                            <p>${prayerRoom.name} (จำนวนผู้ใช้ปัจจุบัน: ${architecturePrayerRoomData})</p>
+                        </div>
+                    `;
+                    architecturePrayerRoomGrid.innerHTML += apiEngineeringRoomItem;
+                }
+                if (prayerRoom.name === "ห้องละหมาดคณะเทคโนโลยีสารสนเทศ") {
+                    InformationPrayerRoomGrid.innerHTML += `
+                        <div class="prayerroom-item">
+                            <img src="${prayerRoom.image}" alt="${prayerRoom.name}">
+                            <p>${prayerRoom.name} (จำนวนผู้ใช้ปัจจุบัน: ${InformationPrayerRoomData})</p>
+                        </div>
+                    `;
+                    
+                }
+                if (prayerRoom.name === "ห้องละหมาดคณะเทคโนโลยีการเกษตร") {
+                    AgriculturalPrayerRoomGrid.innerHTML += `
+                        <div class="prayerroom-item">
+                            <img src="${prayerRoom.image}" alt="${prayerRoom.name}">
+                            <p>${prayerRoom.name} (จำนวนผู้ใช้ปัจจุบัน: ${AgriculturalPrayerRoomData})</p>
+                        </div>
+                    `;
+                   
+                }
+                if (prayerRoom.name === "ห้องละหมาดหอสมุดกลาง") {
+                    LibraryPrayerRoomGrid.innerHTML += `
+                        <div class="prayerroom-item">
+                            <img src="${prayerRoom.image}" alt="${prayerRoom.name}">
+                            <p>${prayerRoom.name} (จำนวนผู้ใช้ปัจจุบัน: ${LibraryPrayerRoomData})</p>
+                        </div>
+                    `;
+                    
+                }
+            });
+        }
+    
+        window.onload = () => {
+            fetchData();
+            setInterval(fetchData, 3000);
+        };
+    </script>
+    
+</body>
+</html>

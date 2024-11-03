@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding-top: 50px;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-around;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        nav a.active, nav a:hover {
+            background-color: #575757;
+        }
+        form {
+            background-color: white;
+            padding: 20px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        input[type="text"], textarea, input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            color: #333;
+        }
+        #news-list div {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #news-list img {
+            max-width: 100px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .delete-button {
+            background-color: #f44336;
+            padding: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .delete-button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="admin.html" class="active">Home</a>
+        <a href="adminActivity.html">Activities</a>
+        <a href="adminRestaurant.html">Restaurant</a>
+        <a href="adminPrayerRoom.html">Prayer Room</a>
+    </nav>
+
+    <h1 style="text-align: center; color: #333;">เพิ่ม/แก้ไขข่าวประชาสัมพันธ์</h1>
+
+    <form id="news-form">
+        <input type="text" id="title" placeholder="หัวข้อข่าว" required>
+        <textarea id="description" placeholder="รายละเอียดข่าว" required></textarea>
+        <input type="text" id="link" placeholder="ลิงก์อ่านต่อ" required>
+        <input type="file" id="image" accept="image/*" required>
+        <button type="submit">บันทึกข้อมูล</button>
+    </form>
+
+    <h2>รายการข่าวที่มีอยู่</h2>
+    <div id="news-list"></div>
+
+    <script>
+        let isEditing = false;
+        let editingTitle = '';
+
+        function convertImageToBase64(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                callback(event.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function addNewsToLocalStorage(news) {
+            const newsData = JSON.parse(localStorage.getItem('newsData')) || {};
+            if (isEditing && editingTitle !== '') {
+                delete newsData[editingTitle];
+            }
+            newsData[news.title] = {
+                description: news.description,
+                image: news.image,
+                link: news.link
+            };
+            localStorage.setItem('newsData', JSON.stringify(newsData));
+            displayNews();
+            resetForm();
+            isEditing = false;
+        }
+
+        function displayNews() {
+            const newsList = document.getElementById('news-list');
+            const newsData = JSON.parse(localStorage.getItem('newsData')) || {};
+            newsList.innerHTML = '';
+
+            if (Object.keys(newsData).length === 0) {
+                newsList.innerHTML = '<p>ไม่มีข่าวประชาสัมพันธ์</p>';
+                return;
+            }
+
+            for (const title in newsData) {
+                const news = newsData[title];
+                const newsItem = `
+                    <div>
+                        <h3>${title}</h3>
+                        <p>${news.description}</p>
+                        <img src="${news.image}" alt="${title}"><br>
+                        <a href="${news.link}" target="_blank">อ่านต่อ</a><br>
+                        <button onclick="editNews('${title}')">แก้ไขข่าว</button>
+                        <button class="delete-button" onclick="confirmDeleteNews('${title}')">ลบข่าว</button>
+                    </div>
+                `;
+                newsList.innerHTML += newsItem;
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('news-form').reset();
+            editingTitle = '';
+        }
+
+        function confirmDeleteNews(title) {
+            if (confirm(`ต้องการลบข่าว "${title}" หรือไม่?`)) {
+                deleteNews(title);
+            }
+        }
+
+        function deleteNews(title) {
+            const newsData = JSON.parse(localStorage.getItem('newsData')) || {};
+            delete newsData[title];
+            localStorage.setItem('newsData', JSON.stringify(newsData));
+            displayNews();
+        }
+
+        function editNews(title) {
+            const newsData = JSON.parse(localStorage.getItem('newsData')) || {};
+            const news = newsData[title];
+            document.getElementById('title').value = title;
+            document.getElementById('description').value = news.description;
+            document.getElementById('link').value = news.link;
+            isEditing = true;
+            editingTitle = title;
+        }
+
+        document.getElementById('news-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const file = document.getElementById('image').files[0];
+            if (file) {
+                convertImageToBase64(file, function(base64Image) {
+                    const news = {
+                        title: document.getElementById('title').value,
+                        description: document.getElementById('description').value,
+                        image: base64Image,
+                        link: document.getElementById('link').value,
+                    };
+                    addNewsToLocalStorage(news);
+                    alert('ข่าวประชาสัมพันธ์ถูกบันทึกเรียบร้อยแล้ว!');
+                });
+            } else {
+                alert('กรุณาเลือกภาพเพื่อบันทึกข่าวประชาสัมพันธ์');
+            }
+        });
+
+        window.onload = displayNews;
+    </script>
+</body>
+</html>

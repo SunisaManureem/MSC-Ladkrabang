@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>กิจกรรมชมรม - MSC Ladkrabang</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ffe0b2;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+        }
+        header img {
+            height: 100px;
+            width: auto;
+            margin-right: 3px;
+        }
+        nav {
+            display: flex;
+            justify-content:  center;
+            gap: 30px;
+            flex-grow: 1; /* ใช้พื้นที่ทั้งหมดที่เหลือ */
+            
+        }
+        nav a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            margin: 0 20px;
+            position: relative;
+        }
+        .menu-icon {
+            margin-right: 8px;
+            height: 24px;
+            width: auto;
+        }
+        .menu-text {
+            font-size: 16px;
+        }
+        
+        nav a:hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: orange;
+            bottom: -5px;
+            left: 0;
+        }
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: orange;
+            bottom: -5px;
+            left: 0;
+}
+        .activity-calendar {
+            text-align: center;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #FFEBB7;
+            width: 80%;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+        }
+        .activity-calendar h2 {
+            font-size: 24px;
+            color: #ef6c00;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="images/MSC Logo.png" alt="MSC Logo"> 
+        <nav>
+            <a href="index.html">
+                <span class="menu-text">Home</span>
+            </a>
+            <a href="Activity.html" class="active">
+                <span class="menu-text">Activities</span>
+            </a>
+            <a href="restaurant.html">
+                <span class="menu-text">Restaurant</span>
+            </a>
+            <a href="Prayer Room.html">
+                <span class="menu-text">Prayer Room</span>
+            </a>
+        </nav>
+    </header>        
+    
+    <section class="banner"></section>
+
+    <div class="activity-calendar">
+        <h2>กิจกรรมชมรม</h2>
+        <div id="Activies-card-container"></div>
+    </div>
+
+    <script>
+        function displayActiviesFrontend() {
+            const ActiviesContainer = document.getElementById('Activies-card-container');
+            const Activitiess = JSON.parse(localStorage.getItem('Activitiess')) || [];
+
+            if (Activitiess.length === 0) {
+                ActiviesContainer.innerHTML = '<p>ไม่มีข่าวประชาสัมพันธ์</p>';
+                return;
+            }
+
+            Activitiess.forEach(Activities => {
+                const ActivitiesCard = `
+                    <div class="Activities-card">
+                        <img src="${Activities.image}" style="width:100%;">
+                    </div>
+                `;
+                ActiviesContainer.innerHTML += ActivitiesCard;
+            });
+        }
+
+        window.onload = displayActiviesFrontend;
+    </script>
+</body>
+</html>

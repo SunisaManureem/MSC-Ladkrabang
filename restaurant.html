@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+       
+       body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        /* Header */
+        header {
+            background-color: #ffe0b2;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px; /* กำหนดความสูงให้แน่นอน */
+        }
+
+        header img {
+            height: 100px;
+            width: auto;
+            margin-right: 3px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-grow: 1;
+        }
+
+        nav a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .menu-icon {
+            margin-right: 8px;
+            height: 24px;
+            width: auto;
+        }
+
+        .menu-text {
+            font-size: 16px;
+        }
+
+        /* การสไตลิ่งเมนูที่แอคทีฟ */
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: orange;
+            bottom: -5px;
+            left: 0;
+        }
+
+        /* การสไตลิ่งเมนูเมื่อโฮเวอร์ */
+        nav a:hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: orange;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .login-button {
+            background-color: orange;
+            border: none;
+            padding: 5px 15px;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+        }
+
+        .login-icon {
+            margin-right: 8px;
+            height: 30px;
+            width: auto;
+        }
+
+        /* Main Banner */
+        .banner {
+            background-image: url('images/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* This makes the background move slower during scroll */
+            background-color: white;
+            text-align: center;
+            padding: 100px 0;
+            color: white;
+            position: relative;
+            height: 400px;
+        }
+
+        .banner h1 {
+            font-size: 48px;
+            color: #ef6c00;
+        }
+
+        .banner::before {
+            content: '';
+            background-image: url();
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #e0e0e0;
+            padding: 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+
+        .restaurant-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .restaurant-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px;
+            padding: 15px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .restaurant-item img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .restaurant-item h2 {
+            margin: 10px 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .restaurant-item p {
+            color: #555;
+            font-size: 14px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="images/MSC Logo.png" alt="MSC Logo"> 
+        <nav> 
+            <a href="index.html">
+                <span class="menu-text">Home</span>
+            </a>
+            <a href="Activity.html">
+                <span class="menu-text">Activities</span>
+            </a>
+            <a href="restaurant.html"class="active">
+                <span class="menu-text">Restaurant</span>
+            </a>
+            <a href="Prayer Room.html">
+                <span class="menu-text">Prayer Room</span>
+            </a>
+        </nav>
+        
+    </header>        
+   
+
+    <div class="restaurant-list" id="restaurant-list">
+        <!-- รายการร้านอาหารจะถูกแสดงที่นี่ -->
+    </div>
+
+    <script>
+        function displayRestaurants() {
+            const restaurantList = document.getElementById('restaurant-list');
+            let restaurants = JSON.parse(localStorage.getItem('restaurants')) || [];
+            restaurantList.innerHTML = '';
+
+            restaurants.forEach(restaurant => {
+                const restaurantItem = `
+                    <div class="restaurant-item">
+                        <img src="${restaurant.image}" alt="${restaurant.name}">
+                        <h2>${restaurant.name}</h2>
+                        <p>${restaurant.detail}</p>
+                    </div>
+                `;
+                restaurantList.innerHTML += restaurantItem;
+            });
+        }
+
+        // แสดงรายการร้านอาหารเมื่อโหลดหน้า
+        window.onload = displayRestaurants;
+    </script>
+</body>
+</html>
